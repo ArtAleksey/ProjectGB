@@ -30,7 +30,7 @@ public class MainClass {
     public static void doCatInfo(Cat[] cats) {
         for (int i = 0; i < cats.length; i++) {
             cats[i].catInfo();
-            System.out.println("------------------");
+            System.out.println("-------------------");
         }
     }
 
