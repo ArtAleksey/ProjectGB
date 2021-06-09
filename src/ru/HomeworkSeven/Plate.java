@@ -10,8 +10,6 @@ public class Plate {
     public void decreaseFood(int n) {
         if (food >= n) {
             food -= n;
-        } else {
-            System.out.println("Cat too hungry for this plate!");
         }
     }
     public void info() {
