@@ -15,7 +15,7 @@ public class Cat {
             plate.decreaseFood(appetite);
             satiety = true;
         } else  {
-            System.out.println("Not enough food for " + name + "!");
+            System.out.println("Not enough food for " + name + "!!");
         }
     }
 
