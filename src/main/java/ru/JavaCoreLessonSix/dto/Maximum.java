@@ -1,27 +1,29 @@
-package ru.JavaCoreLessonSix;
+package ru.JavaCoreLessonSix.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Minimum {
+public class Maximum {
+
     @JsonProperty("Value")
     private Double value;
     @JsonProperty("Unit")
     private String unit;
 
-    public Minimum() {
+    public Maximum() {
     }
 
-    public Minimum(Double value, String unit) {
+    public Maximum(Double value, String unit) {
         this.value = value;
         this.unit = unit;
     }
 
     @Override
     public String toString() {
-        return "Minimum{" +
+        return "Maximum{" +
                 "value='" + value + '\'' +
                 ", unit='" + unit + '\'' +
                 '}';

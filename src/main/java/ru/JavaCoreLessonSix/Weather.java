@@ -5,10 +5,11 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import ru.JavaCoreLessonSix.dto.DailyForecasts;
+import ru.JavaCoreLessonSix.repository.WetherForecastRepo;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.sql.SQLException;
 
 public class Weather {
 
@@ -27,7 +28,8 @@ public class Weather {
     private static final String METRIC = "true";
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
+        Class.forName("org.sqlite.JDBC");
 
         // Экземпляр класса OkHttpClient выполняет всю работу по созданию и отправке запросов
         OkHttpClient client = new OkHttpClient();
@@ -68,6 +70,7 @@ public class Weather {
 
         ObjectMapper objectMapper = new ObjectMapper();
         WetherResponse wetherResponse = objectMapper.readValue(response.body().byteStream(), WetherResponse.class);
+        WetherForecastRepo wetherForecastRepo = new WetherForecastRepo();
 
         for (DailyForecasts forecasts : wetherResponse.getDailyForecasts()){
             System.out.printf(
@@ -82,7 +85,17 @@ public class Weather {
                     forecasts.getTemperature().getMaximum().getValue(),
                     forecasts.getTemperature().getMinimum().getUnit()
                     );
+            wetherForecastRepo.save(
+                    CITY,
+                    forecasts.getDate(),
+                    forecasts.getDay().getIconPhrase(),
+                    forecasts.getNight().getIconPhrase(),
+                    forecasts.getTemperature().getMinimum().getValue(),
+                    forecasts.getTemperature().getMaximum().getValue()
+            );
         }
+
+        wetherForecastRepo.read();
     }
 
 }
