@@ -2,6 +2,7 @@ package org.example;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -24,7 +25,7 @@ public class App
 
 
     }
-    public static void testForCreateCRMProject() {
+    public static void testForCreateCRMProject() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -59,22 +60,23 @@ public class App
         driver.findElement(By.name("crm_project[manager]")).click();
         driver.findElement(By.xpath("//*[@name=\"crm_project[manager]\"]/option[3]")).click();
 
-//        Не получается найти локатор для поля контактные лица, пробовал разные. Что можно использовать для нахождения локатора этого поля??
-//        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/div[2]/div[3]/div/div[1]/div[2]/fieldset/div[4]/div[1]/div[2]/div")).click();
-        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/div[2]/div[3]/div/div[1]/div[2]/fieldset/div[4]/div[1]/div[2]/div/a/span[2]")).click();
+//        Не выбирается поле даже по предложенному вами локатору
+        driver.findElement(By.xpath(".//label[text()='Основное контактное лицо']/../../div[@class=\"controls\"]/div")).click();
         driver.findElement(By.xpath("/html/body/div[7]/div/input")).sendKeys("Depp Johnny");
         driver.findElement(By.xpath("/html/body/div[7]/ul[2]/li[107]/div")).click();
 
         driver.findElement(By.linkText("Сохранить и закрыть")).click();
-//      При попытки выйти из аккаунта, пишет что элемент не кликабельный, подскажите как тогда его выбрать?.
-        driver.findElement(By.xpath("//*[@id=\"user-menu\"]/a")).click();
-        driver.findElement(By.xpath("//*[@id=\"user-menu\"]/ul/li[6]/a")).click();
+
+        Thread.sleep(10000l);
+        WebElement webElement = driver.findElement(By.cssSelector("li#user-menu>a"));
+        webElement.click();
+        driver.findElement(By.xpath("//a[text()='Выйти']")).click();
 
 
         driver.quit();
     }
 
-    public static void testForCreateContactPerson() {
+    public static void testForCreateContactPerson() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -107,9 +109,12 @@ public class App
 //        Сохраняем и закрываем
         driver.findElement(By.xpath("//button[contains(.,'Сохранить и закрыть')]")).click();
 
-//      При попытки выйти из аккаунта, пишет что элемент не кликабельный, подскажите как тогда его выбрать?.
-        driver.findElement(By.xpath("/html/body/div[2]/div/header/div[1]/div/ul/li[1]/a")).click();
-        driver.findElement(By.xpath("//a[text()='Выйти'")).click();
+        Thread.sleep(10000l);
+        WebElement webElement = driver.findElement(By.cssSelector("li#user-menu>a"));
+        webElement.click();
+        driver.findElement(By.xpath("//a[text()='Выйти']")).click();
+//        driver.findElement(By.xpath("/html/body/div[2]/div/header/div[1]/div/ul/li[1]/a")).click();
+//        driver.findElement(By.xpath("//a[text()='Выйти'")).click();
 
 
         driver.quit();
